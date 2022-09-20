@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/echo1826/todo-typescript/issues"
   },
-  "homepage": "https://github.com/echo1826/todo-typescript#readme"
+  "homepage": "https://github.com/echo1826/todo-typescript#readme",
+  "dependencies": {
+    "lite-server": "^2.6.1"
+  }
 }
