@@ -7,13 +7,56 @@
 
 // Type assertions
 // Assert to typescript to treat a value as a certain type
-const btn = document.getElementById("btn") as HTMLElement;
+interface Todo {
+    text: string;
+    completed: boolean;
+}
+const form = document.getElementById("todoform")!;
 const input = document.getElementById("todoinput") as HTMLInputElement;
+const list = document.getElementById("todolist")!;
 
-btn.addEventListener("click", function (event) {
+
+const todos: Todo[] = readTodo();
+
+form.addEventListener("submit", function (event: SubmitEvent) {
     event.preventDefault();
+    
     // can't access input.value if input is declared as a regular HTMLElement because value only exists on HTMLElement input type
-    let text: string = input.value;
-    console.log(text);
+    const todoText: string = input.value;
+    const todo: Todo = {
+        text: todoText,
+        completed: false,
+    }
+    todos.push(todo);
+    localStorage.setItem("todos", JSON.stringify(todos));
+    renderTodo();
     input.value = "";
 });
+
+function renderTodo(): void {
+    list.innerHTML = "";
+    
+    for(let i: number = 0; i < todos.length; i++) {
+        const li = document.createElement("li");
+        const checkbox = document.createElement("input");
+        li.textContent = todos[i].text;
+        checkbox.setAttribute("type", "checkbox");
+        checkbox.checked = todos[i].completed;
+        li.append(checkbox);
+        list.append(li);
+    }
+}
+
+function readTodo(): Todo[] {
+    const todoList = localStorage.getItem("todos");
+    if(!todoList) {
+        return [];
+    }
+    return JSON.parse(todoList);
+}
+
+function completeTodo(): void {
+    
+}
+
+renderTodo();
